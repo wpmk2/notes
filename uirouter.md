@@ -15,8 +15,8 @@ It can be installed using bower or npm:
 ###Configure States
 - States are configure on the config method of the application.
 - Inject $stateProvider into the config function.
-- Call the state method of the $stateProvider service to add states the the application.
-- Each states is made up of a name and a configuration object.
+- Call the state method of the $stateProvider service to add states to the application.
+- Each state is made up of a name and a configuration object.
 - Use the configuration object to specify the url, controller and template for the state.
 
 Example:
@@ -48,13 +48,13 @@ Inject the $state service into the controller and use $state.go('state name') to
 Link to a state from any anchor tag using the url or the name of the state:
 
 	<a ui-sref="home">Home</a> <!-- using the name of the state replace the href attribute with ui-sref -->
-	<a href="/about">About</a> <!-- using the url, remember to add the corresponding forward slash (/)-->
+	<a href="#/about">About</a> <!-- using the url, remember to add the # and corresponding forward slash (/)-->
 
 ####Useful $state Service Methods
 
 	$state.go('about'); // go to the about state
 	$state.reload(); // force the current state to be reloaded
-	$state.get(); // retrieve an array of all configuration objects for the applicarion states
+	$state.get(); // retrieve an array of all configuration objects for the application states
 	$state.get('about') // pass a state name to get the configuration object for that state
 
 ####Useful $state properties
