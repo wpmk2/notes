@@ -47,8 +47,8 @@ Inject the $state service into the controller and use $state.go('state name') to
 ####From html
 Link to a state from any anchor tag using the url or the name of the state:
 
-	<a ui-sref="home">Home</a> <!-- using the name of the state replace the hfref with ui-sref -->
-	<a href="/about">About</a> <!-- using the url add the corresponding forward slash (/)-->
+	<a ui-sref="home">Home</a> <!-- using the name of the state replace the href with ui-sref -->
+	<a href="/about">About</a> <!-- using the url, remember to add the corresponding forward slash (/)-->
 
 ####Useful $state Service Methods
 
