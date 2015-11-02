@@ -1,4 +1,5 @@
-UI Router works with states instead of URLs.
+##Quick Reference to UI-Router
+UI Router works with application states instead of URLs.
 
 ###Install UI-Router
 It can be installed using bower or npm:
@@ -12,7 +13,7 @@ It can be installed using bower or npm:
 3. add ui-view directive to html as a placehoder for the views.
 
 ###Configure States
-- States are configure on the config method of the application's main module.
+- States are configure on the config method of the application.
 - Inject $stateProvider into the config function.
 - Call the state method of the $stateProvider service to add states the the application.
 - Each states is made up of a name and a configuration object.
