@@ -2,6 +2,7 @@
 
 ###Types
 There are three types:
+
 1. Component: alson known as a widget. It is used to encapsulate a piece of user interface and it's behaviour.
 2. Decorator: used to add functionality to an existing html tag, ng-click and ng-show are examples of decorator directives.
 3. Structural / Templating: manipulates de DOM, examples of this type are ng-repeat and ng-if.
