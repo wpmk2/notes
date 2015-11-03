@@ -15,9 +15,10 @@ The basic syntax to define a component directive is:
 			restrict: 'E', // type of directive (E: Element, A: Attribute, C: Class, M: Comment)
 			templateUrl: 'students/dmStudentDetails.html', // optional html template
 			controller: function ($scope) {
-				// this controller has access to the $scope of it's containing element on the page.
-				// If look below to the html fragment, it means that we can access the $scope
-				// of AppController because our directive is contained within the div controlled by it.
+				// by default, this controller shares the $scope of it's containing element on the page.
+				// If you look at the html fragment listed below, this means that we share the $scope
+				// with AppController because our directive is contained within the div controlled by it.
+				// We will learn about the way scope works on directives later on.
 			} 
 		}
 	});
@@ -34,4 +35,11 @@ Not using snake case (snake-casing) in html is a common cause of errors.
 It is good practice to prefix your directives with a two or three letter acronym related to your company or the project.
 In the example above we used dm (for DevMountain). This helps us quickly identify component directives in our code
 and avoid possible naming collisions with directives provided by any external libraries used in our application.
+
+###Scope
+We can define one of three types of scopes for our directives:
+
+1. Shared: default behaviour. Here the directive has direct access to data or functions defined on the containing controller's (parent) scope.
+2. Inherited: the directive has it's own scope, but still has direct access to data or functions defined on the parent scope.
+3. Isolated: the directtive has it's own scope and has no direct access to data or functions defined on the parent scope.
 
