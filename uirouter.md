@@ -69,3 +69,63 @@ Link to a state from any anchor tag using the url or the name of the state:
 	$stateChangeError	// fired if the transition to the new state failed
 	$stateNotFound		// fired if the state was not found
 
+###Passing Parameters
+States can set and recieve paramenters. 
+
+Differente ways of declaring a parameter.
+
+Add the name of the parameter to the url prefixing it with a colon:
+
+	.state('users', {
+		url: '/users/:id', // in this case the name of the parameter is id
+		controller: 'AppController',
+		// ... other properties of the state configuration object
+	});
+
+Use curly braces and the name of the parameter or a regular expression. If a regular expression is used, 
+the parameter is only set if the value provided matches the regular expression (without the slashes):
+
+	.state('users', {
+		url: '/users/{id}', // in this case the name of the parameter is id
+		url: '/users/{id:[0-9]{1,8}}, // in this case will only match for id of 1 to 8 numbers
+		controller: 'AppController',
+		// ... other properties of the state configuration object
+	});
+
+Use the params property on the state configuration object:
+
+	.state('users', {
+		url: '/users',
+		params: {
+			id: { value: 1234 } // declares a parameter id and gives it a default value
+		},
+		controller: 'AppController',
+		// ... other properties of the state configuration object		
+	});
+
+To pass the paramenter on the url, just add the value for the paramenter after the route:
+
+	http://localhost:8080/#/users/abcd // $stateParams.id will have the value abcd
+	http://mysite.com/#/users/1234	 // $stateParams.id will have the value 1234
+
+To pass the parameter using ui-sref we pass an object in parenthesis containing all the parameters:
+
+	<!-- assuming we have a user object on the scope with an id property we can write -->
+	<a ui-sref="users({ id: user.id })">View User Details</a> <!-- ui-router builds the correct url  -->	
+	<a ui-sref="users({ id: 1234 })">View User Details</a> <!-- or we can just pass the value  -->	
+
+To pass the parameter using href, just concatenate the base url with the params:
+
+
+	<a href="#/users/{{ user.id }}">View User Details</a> <!-- from an object or value on the scope -->	
+	<a href="#/users/1234">View User Details</a> <!-- passing the value directly -->	
+
+	
+The parameter is added to the $stateParams object into a property with the parameter name. 
+In the examples above, the parameter will be stored on **$stateParams.id** and can be retrieved 
+by the controller associated with the state.
+
+	function AppController ($scope, $stateParams) { // inject $stateParams
+		// the value passed into the url is on a property on $stateParams named after the parameter
+		$scope.userId = $stateParams.id; // in this case the property name is id (from :id on the state configuration object)
+	}
