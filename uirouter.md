@@ -13,7 +13,7 @@ It can be installed using bower or npm:
 3. add ui-view directive to html as a placehoder for the views.
 
 ###Configure States
-- States are configure on the config method of the application.
+- States are configured on the config method of the application.
 - Inject $stateProvider into the config function.
 - Call the state method of the $stateProvider service to add states to the application.
 - Each state is made up of a name and a configuration object.
@@ -26,7 +26,7 @@ Example:
 		$stateProvider
 			.state('home', { // add states by calling the .state function on $stateProvider
 				url: '/', // optional url associated with the state (in this case the root of site)
-				controller: 'AppController', // named controller or anonymouse (inline) function
+				controller: 'AppController', // named controller or anonymous (inline) function
 				controllerAs: 'app', // when using controller as syntax
 				templateUrl: 'home/home.html' // specify a view associated with the state
 			})
@@ -47,7 +47,7 @@ Inject the $state service into the controller and use $state.go('state name') to
 ####From html
 Link to a state from any anchor tag using the url or the name of the state:
 
-	<!-- using the name of the state replace the href attribute with ui-sref -->
+	<!-- using the name of the state, replace the href attribute with ui-sref -->
 	<a ui-sref="home">Home</a> 
 	
 	<!-- using the url, remember to add the # and corresponding forward slash (/)-->
@@ -63,7 +63,7 @@ Link to a state from any anchor tag using the url or the name of the state:
 ####Useful $state properties
 
 	$state.current // returns a reference to the currently active state 
-	$state.params // returns an object containin the parameters for the current state
+	$state.params // returns an object containing the parameters for the current state
 
 ####Useful $state Events
 
@@ -146,7 +146,7 @@ by the controller associated with the state.
 	}
 
 ###Resolve Property
-We can add a resolve object as a property on the state configuration object. The resolve property is used to specify a set of 
+We can add a resolve object as a property on the state configuration object. The resolve property is used to specify a set of
 dependencies we can inject into the controller. Each dependency is defined as a property on the resolve object and is often 
 implemented by calling a function that returns a promise. The promise will be resolved before transitioning to the state.
 This ensures that the data is available to the controller before the state changes.
@@ -168,7 +168,7 @@ We use the dependencies declared on the resolve object by injecting them into th
 	}
 
 ###Passing Arbitrary Data to States
-It is possible to pass any data to a state by adding a properties to the state configuration object. 
+It is possible to pass any data to a state by adding properties to the state configuration object. 
 The properties added will be passed to the controller as properties in the $state.current object:
 
 	.state('users', {
