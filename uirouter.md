@@ -25,16 +25,15 @@ Example:
 	app.config(function ($stateProvider) { // inject $stateProvider into the module's config function
 		$stateProvider
 			.state('home', { // add states by calling the .state function on $stateProvider
-				url: '/', // specify an optional url associated with the state (in this case the root of site)
-				controller: 'AppController', // specify a controller (could be 'AppController as app').
-				// The controller can be an anonymous (inline) function, but it is not recommended
-				controllerAs: 'app', // specify an alias here if not using "controller as syntax" shown in parenthesis above.
+				url: '/', // optional url associated with the state (in this case the root of site)
+				controller: 'AppController', // named controller or anonymouse (inline) function
+				controllerAs: 'app', // when using controller as syntax
 				templateUrl: 'home/home.html' // specify a view associated with the state
 			})
 			.state('about', {
 				url: '/about',
-				controller: 'AboutController as about', // alternate syntax
-				templateUrl: 'about/about.html' // could also be a function that returns the path based on some criteria
+				controller: 'AboutController as about', // alternative controller as syntax
+				templateUrl: 'about/about.html' // could be a function that returns the path to the view
 			}) 
 	});
 
@@ -48,8 +47,11 @@ Inject the $state service into the controller and use $state.go('state name') to
 ####From html
 Link to a state from any anchor tag using the url or the name of the state:
 
-	<a ui-sref="home">Home</a> <!-- using the name of the state replace the href attribute with ui-sref -->
-	<a href="#/about">About</a> <!-- using the url, remember to add the # and corresponding forward slash (/)-->
+	<!-- using the name of the state replace the href attribute with ui-sref -->
+	<a ui-sref="home">Home</a> 
+	
+	<!-- using the url, remember to add the # and corresponding forward slash (/)-->
+	<a href="#/about">About</a> 
 
 ####Useful $state Service Methods
 
@@ -80,6 +82,7 @@ Add the name of the parameter to the url prefixing it with a colon:
 	.state('users', {
 		url: '/users/:id', // in this case the name of the parameter is id
 		controller: 'AppController',
+		
 		// ... other properties of the state configuration object
 	});
 
@@ -90,6 +93,7 @@ the parameter is only set if the value provided matches the regular expression (
 		url: '/users/{id}', // in this case the name of the parameter is id
 		url: '/users/{id:[0-9]{1,8}}, // in this case will only match for id of 1 to 8 numbers
 		controller: 'AppController',
+		
 		// ... other properties of the state configuration object
 	});
 
@@ -101,6 +105,7 @@ Use the params property on the state configuration object:
 			id: { value: 1234 } // declares a parameter id and gives it a default value
 		},
 		controller: 'AppController',
+		
 		// ... other properties of the state configuration object		
 	})
 	.state('expenses', {
@@ -134,19 +139,21 @@ In the examples above, the parameter will be stored on **$stateParams.id** and c
 by the controller associated with the state.
 
 	function AppController ($scope, $stateParams) { // inject $stateParams
-		// the value passed into the url is on a property on $stateParams named after the parameter
+	
+		// the parameters passed into the state become properties on the $stateParams service
 		$scope.userId = $stateParams.id; // in this case the property name is id (from :id on the state configuration object)
 		$scope.month = $stateParams.month; // we can also access the month parameter
 	}
 
 ###Resolve Property
-We can add a resolve object as a property to the state configuration object. The resolve object us used to specify a set of 
-dependencies we can inject into the controller. Each dependency is defined as a property of the resolve object and is often 
-implemented as by calling a function that returns a promise. The promise will be resolved before transitioning to the state.
+We can add a resolve object as a property on the state configuration object. The resolve property is used to specify a set of 
+dependencies we can inject into the controller. Each dependency is defined as a property on the resolve object and is often 
+implemented by calling a function that returns a promise. The promise will be resolved before transitioning to the state.
 This ensures that the data is available to the controller before the state changes.
 
 	.state('users', {
 		// ... other properties
+		
 		resolve: {
 			accounts: function (data$) { //  data$ is an angular service
 				return data$.getAccounts(); // this function returns a promise
@@ -166,6 +173,7 @@ The properties added will be passed to the controller as properties in the $stat
 
 	.state('users', {
 		// ... other properties
+		
 		data: { // we called it data, but it can be called anything other than the properties used by ui-router (resolve, url, etc)
 			city: 'Provo',
 			state: 'Utah'
@@ -192,6 +200,7 @@ entering or exiting the state.
 
 	.state('users', {
 		// ... other properties
+		
 		onEnter: function ($http) { // we can inject services here
 			console.log('Entered users state'); // add functionality
 		},
