@@ -26,14 +26,15 @@ Example:
 		$stateProvider
 			.state('home', { // add states by calling the .state function on $stateProvider
 				url: '/', // specify an optional url associated with the state (in this case the root of site)
-				controller: 'AppController', // specify a controller (could be 'AppController as app')
+				controller: 'AppController', // specify a controller (could be 'AppController as app').
+				// The controller can be an anonymous (inline) function, but it is not recommended
 				controllerAs: 'app', // specify an alias here if not using "controller as syntax" shown in parenthesis above.
 				templateUrl: 'home/home.html' // specify a view associated with the state
 			})
 			.state('about', {
 				url: '/about',
 				controller: 'AboutController as about', // alternate syntax
-				templateUrl: 'about/about.html' 
+				templateUrl: 'about/about.html' // could also be a function that returns the path based on some criteria
 			}) 
 	});
 
@@ -137,4 +138,65 @@ by the controller associated with the state.
 		$scope.userId = $stateParams.id; // in this case the property name is id (from :id on the state configuration object)
 		$scope.month = $stateParams.month; // we can also access the month parameter
 	}
+
+###Resolve Property
+We can add a resolve object as a property to the state configuration object. The resolve object us used to specify a set of 
+dependencies we can inject into the controller. Each dependency is defined as a property of the resolve object and is often 
+implemented as by calling a function that returns a promise. The promise will be resolved before transitioning to the state.
+This ensures that the data is available to the controller before the state changes.
+
+	.state('users', {
+		// ... other properties
+		resolve: {
+			accounts: function (data$) { //  data$ is an angular service
+				return data$.getAccounts(); // this function returns a promise
+			} // ui-router will wait until the promise is resolved before changing state
+		}
+	});
+
+We use the dependencies declared on the resolve object by injecting them into the controller.
+
+	function UserController ($scope, accounts) { // inject the accounts property from the resolve object. Names must match
+		$scope.accounts = accounts; // the accounts promise was resolved and the value can be assigned to a scope variable
+	}
+
+###Passing Arbitrary Data to States
+It is possible to pass any data to a state by adding a properties to the state configuration object. 
+The properties added will be passed to the controller as properties in the $state.current object:
+
+	.state('users', {
+		// ... other properties
+		data: { // we called it data, but it can be called anything other than the properties used by ui-router (resolve, url, etc)
+			city: 'Provo',
+			state: 'Utah'
+		},
+		secrets: { // another arbitrary piece of data passed to the controller
+			favoriteColor: 'blue',
+			catName: 'rafles'
+		}
+	});
+
+To retrieve the data in the controller:
+
+	function UserController ($scope) { 
+		$scope.city = $state.current.data.city; // 'Provo'
+		$scope.secrets = $state.current.secrets; // { favoriteColor: 'blue', catName: 'rafles' }
+	}
+
+
+**The properties added to any state are inherited by (added to the prototype of) child states.**
+
+###onEnter and onExit Properties
+Use the onEnter and onExit properties of the state configuration to specify callback functions that will execute when 
+entering or exiting the state.
+
+	.state('users', {
+		// ... other properties
+		onEnter: function ($http) { // we can inject services here
+			console.log('Entered users state'); // add functionality
+		},
+		onExit: function ($log) { // we can inject any service here
+			$log('Exiting users state'); // perform any action
+		}
+	});
 
